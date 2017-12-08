@@ -44,11 +44,22 @@ class EmployeeAdmin(admin.ModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
     change_user_password_template = None
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Account info'), {'fields': ('username', 'password', 'email')}),
+        (_('Personal info'), {
+            'fields': (
+                ('first_name', 'last_name'),
+                'gender', 'dob', 'address',
+            )
+        }),
+        (_('Employment info'), {
+            'fields': (('date_joined', 'department'), ('designation', 'manager'))
+        }),
+        (_('Permissions'), {
+            'fields': (
+                ('is_active', 'is_superuser'),
+                'designation', 'user_permissions'
+            )
+        }),
     )
     add_fieldsets = (
         (None, {
@@ -60,10 +71,10 @@ class EmployeeAdmin(admin.ModelAdmin):
     add_form = EmployeeCreationForm
     change_password_form = AdminPasswordChangeForm
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'designation')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('username',)
-    filter_horizontal = ('groups', 'user_permissions',)
+    filter_horizontal = ('user_permissions',)
 
     def get_fieldsets(self, request, obj=None):
         if not obj:

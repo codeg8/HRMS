@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class MainConfig(AppConfig):
-    name = 'Master'
+    name = 'main'
     verbose_name = 'Auth & Employees'
