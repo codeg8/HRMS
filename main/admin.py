@@ -17,7 +17,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-from main.forms import EmployeeCreationForm
+from main.forms import EmployeeCreationForm, EmployeeChangeForm
 from .models import Designation, Employee
 
 csrf_protect_m = method_decorator(csrf_protect)
@@ -57,7 +57,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         (_('Permissions'), {
             'fields': (
                 ('is_active', 'is_superuser'),
-                'designation', 'user_permissions'
+                'user_permissions'
             )
         }),
     )
@@ -67,10 +67,10 @@ class EmployeeAdmin(admin.ModelAdmin):
             'fields': ('username', 'password1', 'password2'),
         }),
     )
-    form = UserChangeForm
+    form = EmployeeChangeForm
     add_form = EmployeeCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    list_display = ('username', 'email', 'full_name', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'designation')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('username',)

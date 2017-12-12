@@ -61,3 +61,5 @@ class Employee(AbstractUser):
     REQUIRED_FIELDS = []
     objects = EmployeeManager()
 
+    def full_name(self):
+        return self.first_name + " " + self.last_name
