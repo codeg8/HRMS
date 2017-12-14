@@ -123,3 +123,4 @@ AUTH_USER_MODEL = 'main.Employee'
 
 # Company Specific Configurations
 COMPANY_EMAIL_DOMAIN = 'q3tech.com'
+COMPANY_EMP_ID_FORMAT = ('EMP-', 4)

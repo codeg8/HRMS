@@ -52,7 +52,7 @@ class EmployeeAdmin(admin.ModelAdmin):
             )
         }),
         (_('Employment info'), {
-            'fields': (('date_joined', 'department'), ('designation', 'manager'))
+            'fields': (('date_joined', 'department'), ('groups', 'manager'))
         }),
         (_('Permissions'), {
             'fields': (
@@ -71,7 +71,7 @@ class EmployeeAdmin(admin.ModelAdmin):
     add_form = EmployeeCreationForm
     change_password_form = AdminPasswordChangeForm
     list_display = ('username', 'email', 'full_name', 'is_staff')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'designation')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('username',)
     filter_horizontal = ('user_permissions',)

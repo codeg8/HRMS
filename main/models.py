@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from .model_manager import EmployeeManager
 from django.utils.translation import ugettext_lazy as _
+from config.settings import COMPANY_EMP_ID_FORMAT
 
 
 # Create your models here.
@@ -31,12 +32,12 @@ class Employee(AbstractUser):
         ('F', _('Female'))
     )
 
-    groups = ''  # Override Default Many to many Field.
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     address = models.TextField(max_length=200, null=True)
     department = models.OneToOneField(Department, on_delete=models.SET_NULL, null=True)
-    designation = models.OneToOneField(
+    groups = models.OneToOneField(
         Designation,
+        verbose_name=_('Designation'),
         on_delete=models.SET_NULL,
         null=True,
         help_text=_(
@@ -60,9 +61,20 @@ class Employee(AbstractUser):
         ),
     )
     dob = models.DateField(verbose_name="Date of Birth", null=True)
-    manager = models.ForeignKey('self', on_delete=models.SET_NULL, related_name=_('manger'), null=True)
+    manager = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        related_name=_('manger'),
+        null=True,
+    )
     REQUIRED_FIELDS = []
     objects = EmployeeManager()
+
+    def __str__(self):
+        return self.emp_id() + " <" + self.username + ">"
+
+    def emp_id(self):
+        return COMPANY_EMP_ID_FORMAT[0] + str(self.pk).zfill(COMPANY_EMP_ID_FORMAT[1])
 
     def full_name(self):
         return self.first_name + " " + self.last_name
