@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.contrib import admin, messages
+from django.contrib.admin import AdminSite
 from django.contrib.admin.options import IS_POPUP_VAR
 from django.contrib.admin.utils import unquote
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import (
-    AdminPasswordChangeForm, UserChangeForm, UserCreationForm,
-)
+from django.contrib.auth.forms import AdminPasswordChangeForm
 from django.core.exceptions import PermissionDenied
 from django.db import router, transaction
 from django.http import Http404, HttpResponseRedirect
@@ -16,15 +15,23 @@ from django.utils.html import escape
 from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-
-from main.forms import EmployeeCreationForm, EmployeeChangeForm
+from main.forms import EmployeeCreationForm, EmployeeChangeForm, AdminLoginForm
 from .models import Designation, Employee, Department
+from django.shortcuts import redirect
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 
 
-@admin.register(Designation)
+# Override the default AdminSite Class to customize
+class HRMSAdminSite(AdminSite):
+    login_form = AdminLoginForm
+
+
+admin_site = HRMSAdminSite(name='HRMS-admin')
+
+
+@admin.register(Designation, site=admin_site)
 class DesignationAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
@@ -39,10 +46,11 @@ class DesignationAdmin(admin.ModelAdmin):
         return super().formfield_for_manytomany(db_field, request=request, **kwargs)
 
 
-@admin.register(Employee)
+@admin.register(Employee, site=admin_site)
 class EmployeeAdmin(admin.ModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
     change_user_password_template = None
+    date_hierarchy = 'date_joined'
     fieldsets = (
         (_('Account info'), {'fields': ('username', 'password', 'email')}),
         (_('Personal info'), {
@@ -70,11 +78,20 @@ class EmployeeAdmin(admin.ModelAdmin):
     form = EmployeeChangeForm
     add_form = EmployeeCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('username', 'email', 'full_name', 'is_staff')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_display = ('emp_id', 'full_name', 'username', 'email', 'department', 'groups',
+                    'manager', 'is_active', 'is_superuser')
+    list_filter = ('department', 'groups', 'is_superuser', 'is_active', )
     search_fields = ('username', 'first_name', 'last_name', 'email')
+    # list_editable = ('email', )
     ordering = ('username',)
     filter_horizontal = ('user_permissions',)
+
+    def has_change_permission(self, request, obj=None):
+        # Allow if user is trying to update his own details.
+        if request.user == obj:
+            return True
+        else:
+            return super(EmployeeAdmin, self).has_change_permission(request, obj)
 
     def get_fieldsets(self, request, obj=None):
         if not obj:
@@ -125,9 +142,9 @@ class EmployeeAdmin(admin.ModelAdmin):
                 # error message.
                 raise Http404(
                     'Your user does not have the "Change user" permission. In '
-                    'order to add users, Django requires that your user '
+                    'order to add users, It is mandatory that your user '
                     'account have both the "Add user" and "Change user" '
-                    'permissions set.')
+                    'permissions set. Please contact admin.')
             raise PermissionDenied
         if extra_context is None:
             extra_context = {}
@@ -141,9 +158,10 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     @sensitive_post_parameters_m
     def user_change_password(self, request, id, form_url=''):
-        if not self.has_change_permission(request):
-            raise PermissionDenied
+        print("TESLA WAS HEREEEEEEEEEEEE !!!")
         user = self.get_object(request, unquote(id))
+        if not self.has_change_permission(request, user):
+            raise PermissionDenied
         if user is None:
             raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {
                 'name': self.model._meta.verbose_name,
@@ -219,6 +237,6 @@ class EmployeeAdmin(admin.ModelAdmin):
         return super().response_add(request, obj, post_url_continue)
 
 
-@admin.register(Department)
+@admin.register(Department, site=admin_site)
 class DepartmentAdmin(admin.ModelAdmin):
     pass

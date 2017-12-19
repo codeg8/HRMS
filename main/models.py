@@ -32,10 +32,10 @@ class Employee(AbstractUser):
         ('F', _('Female'))
     )
 
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
-    address = models.TextField(max_length=200, null=True)
-    department = models.OneToOneField(Department, on_delete=models.SET_NULL, null=True)
-    groups = models.OneToOneField(
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    address = models.TextField(max_length=200, null=True, blank=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    groups = models.ForeignKey(
         Designation,
         verbose_name=_('Designation'),
         on_delete=models.SET_NULL,
@@ -53,14 +53,14 @@ class Employee(AbstractUser):
         related_query_name="user",
     )
     is_superuser = models.BooleanField(
-        _('superuser status'),
+        _('superuser'),
         default=False,
         help_text=_(
             'Designates that this user has all permissions without '
             'explicitly assigning them.'
         ),
     )
-    dob = models.DateField(verbose_name="Date of Birth", null=True)
+    dob = models.DateField(verbose_name="Date of Birth", null=True, blank=True)
     manager = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
@@ -75,6 +75,7 @@ class Employee(AbstractUser):
 
     def emp_id(self):
         return COMPANY_EMP_ID_FORMAT[0] + str(self.pk).zfill(COMPANY_EMP_ID_FORMAT[1])
+    emp_id.admin_order_field = 'pk'
 
     def full_name(self):
         return self.first_name + " " + self.last_name

@@ -1,10 +1,15 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, UsernameField, AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from .models import Employee
 from django import forms
 from django.contrib.admin.widgets import AdminDateWidget
 import datetime
+
+
+class AdminLoginForm(AuthenticationForm):
+    pass
+    # redirect('admin:auth_user_password_change', id=user.pk)
 
 
 class EmployeeCreationForm(UserCreationForm):
@@ -32,8 +37,9 @@ class EmployeeChangeForm(UserChangeForm):
 
     BIRTH_YEAR_CHOICES = tuple(_ for _ in range(1950, datetime.datetime.now().year))
 
-    dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES))
+    dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES), label='Date of Birth', required=False)
     date_joined = forms.DateField(widget=AdminDateWidget())
+    address = forms.CharField(widget=forms.Textarea(attrs={"rows": 5, "cols": 30}), required=False)
 
     def __init__(self, *args, **kwargs):
         super(EmployeeChangeForm, self).__init__(*args, **kwargs)
