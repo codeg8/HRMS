@@ -17,7 +17,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from main.forms import EmployeeCreationForm, EmployeeChangeForm, AdminLoginForm
 from .models import Designation, Employee, Department
-from django.shortcuts import redirect
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -26,6 +25,22 @@ sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 # Override the default AdminSite Class to customize
 class HRMSAdminSite(AdminSite):
     login_form = AdminLoginForm
+
+    def login(self, request, extra_context=None):
+        new_user = False
+        user = None
+
+        username = request.POST.get('username')
+        if username:
+            user = Employee.objects.filter(username=username).first()
+            if user:
+                new_user = user.last_login is None
+
+        r = super(HRMSAdminSite, self).login(request, extra_context)
+
+        if new_user and request.user == user and isinstance(r, HttpResponseRedirect):
+            return HttpResponseRedirect(reverse('admin:auth_user_password_change', args=[user.id]))
+        return r
 
 
 admin_site = HRMSAdminSite(name='HRMS-admin')
@@ -88,7 +103,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         # Allow if user is trying to update his own details.
-        if request.user == obj:
+        if obj is not None and request.user == obj:
             return True
         else:
             return super(EmployeeAdmin, self).has_change_permission(request, obj)
@@ -158,7 +173,6 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     @sensitive_post_parameters_m
     def user_change_password(self, request, id, form_url=''):
-        print("TESLA WAS HEREEEEEEEEEEEE !!!")
         user = self.get_object(request, unquote(id))
         if not self.has_change_permission(request, user):
             raise PermissionDenied
