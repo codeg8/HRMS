@@ -3,10 +3,17 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from .model_manager import EmployeeManager
 from django.utils.translation import ugettext_lazy as _
 from config.settings import COMPANY_EMP_ID_FORMAT
+import django.db.models.options as options
+
+options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('icon',)
 
 
 # Create your models here.
 class Department(models.Model):
+
+    class Meta:
+        icon = _('icon-grid')
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -20,12 +27,14 @@ class Designation(Group):
         db_table = _('main_designation')
         verbose_name = _('designation')
         verbose_name_plural = _('designations')
+        icon = _('icon-badge')
 
 
 class Employee(AbstractUser):
     class Meta:
         verbose_name = _('employee')
         verbose_name_plural = _('employees')
+        icon = _('icon-users')
 
     GENDER_CHOICES = (
         ('M', _('Male')),

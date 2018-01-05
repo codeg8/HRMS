@@ -1,3 +1,4 @@
+from django.apps import apps
 from django.conf import settings
 from django.contrib import admin, messages
 from django.contrib.admin import AdminSite
@@ -9,15 +10,17 @@ from django.core.exceptions import PermissionDenied
 from django.db import router, transaction
 from django.http import Http404, HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.urls import path, reverse
+from django.urls import path, reverse, NoReverseMatch
 from django.utils.decorators import method_decorator
 from django.utils.html import escape
+from django.utils.text import capfirst
 from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from main.forms import EmployeeCreationForm, EmployeeChangeForm, AdminLoginForm
 from .models import Designation, Employee, Department
 from django.shortcuts import redirect
+import pprint
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -26,6 +29,92 @@ sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 # Override the default AdminSite Class to customize
 class HRMSAdminSite(AdminSite):
     login_form = AdminLoginForm
+    index_title = _('Dashboard')
+
+    def _build_app_dict(self, request, label=None):
+        """
+        Build the app dictionary. The optional `label` parameter filters models
+        of a specific app.
+        """
+        app_dict = {}
+
+        if label:
+            models = {
+                m: m_a for m, m_a in self._registry.items()
+                if m._meta.app_label == label
+            }
+        else:
+            models = self._registry
+
+        for model, model_admin in models.items():
+            app_label = model._meta.app_label
+
+            has_module_perms = model_admin.has_module_permission(request)
+            if not has_module_perms:
+                continue
+
+            perms = model_admin.get_model_perms(request)
+
+            # Check whether user has any perm for this module.
+            # If so, add the module to the model_list.
+            if True not in perms.values():
+                continue
+
+            info = (app_label, model._meta.model_name)
+            model_dict = {
+                'name': capfirst(model._meta.verbose_name_plural),
+                'object_name': model._meta.object_name,
+                'icon': model._meta.icon,
+                'perms': perms,
+            }
+            if perms.get('change'):
+                try:
+                    model_dict['admin_url'] = reverse('admin:%s_%s_changelist' % info, current_app=self.name)
+                except NoReverseMatch:
+                    pass
+            if perms.get('add'):
+                try:
+                    model_dict['add_url'] = reverse('admin:%s_%s_add' % info, current_app=self.name)
+                except NoReverseMatch:
+                    pass
+
+            if app_label in app_dict:
+                app_dict[app_label]['models'].append(model_dict)
+            else:
+                app_dict[app_label] = {
+                    'name': apps.get_app_config(app_label).verbose_name,
+                    'app_label': app_label,
+                    'app_url': reverse(
+                        'admin:app_list',
+                        kwargs={'app_label': app_label},
+                        current_app=self.name,
+                    ),
+                    'has_module_perms': has_module_perms,
+                    'models': [model_dict],
+                }
+
+        if label:
+            return app_dict.get(label)
+        return app_dict
+
+    def index(self, request, extra_context=None):
+        """
+                Display the main admin index page, which lists all of the installed
+                apps that have been registered in this site.
+                """
+        context = dict(
+            self.each_context(request),
+            title=self.index_title,
+            sub_heading='dashboard & statics'
+        )
+        context.update(extra_context or {})
+        request.current_app = self.name
+        return TemplateResponse(request, self.index_template or 'admin/index.html', context)
+
+    def each_context(self, request):
+        result = super(HRMSAdminSite, self).each_context(request)
+        result.update({'app_list': self.get_app_list(request)})
+        return result
 
 
 admin_site = HRMSAdminSite(name='HRMS-admin')
