@@ -41,7 +41,7 @@ class Employee(AbstractUser):
         ('F', _('Female'))
     )
 
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=False)
     address = models.TextField(max_length=200, null=True, blank=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     groups = models.ForeignKey(
@@ -49,9 +49,7 @@ class Employee(AbstractUser):
         verbose_name=_('Designation'),
         on_delete=models.SET_NULL,
         null=True,
-        help_text=_(
-            'Default Permission for different modules in Portal depends upon employee\'s Designation.'
-        )
+        help_text=_('Default Permission for different modules in Portal depends upon employee\'s Designation.')
     )
     user_permissions = models.ManyToManyField(
         Permission,

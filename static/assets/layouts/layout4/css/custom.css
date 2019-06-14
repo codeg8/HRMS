@@ -2,3 +2,299 @@
 .mt-actions .mt-action .mt-action-body .mt-action-row .mt-action-buttons{width: 170px;}
 .feeds li .col1>.cont>.cont-col2>.desc{font-size: 12px;}
 .feeds li .col2>.date{font-size:9px;}
+.tags {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.table thead th.action-checkbox-column{width: 50px}
+
+.tags li {
+  float: left;
+}
+
+.tag {
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: #999;
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 20px 0 23px;
+  position: relative;
+  margin: 0 10px 10px 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+}
+
+.tag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: '';
+  height: 6px;
+  left: 10px;
+  position: absolute;
+  width: 6px;
+  top: 10px;
+}
+
+.tag::after {
+  background: #fff;
+  border-bottom: 13px solid transparent;
+  border-left: 10px solid #eee;
+  border-top: 13px solid transparent;
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.tag:hover {
+  background-color: crimson;
+  color: white;
+  text-decoration: none;
+}
+
+.tag:hover::after {
+   border-left-color: crimson;
+}
+
+ul.pointers{
+  list-style: none;
+  margin: 0px;
+  overflow: hidden;
+  padding: 0;
+}
+ul.pointers > li > a{
+    float: left;
+    height: 26px;
+    line-height: 26px;
+    color: #999;
+    position: relative;
+    background: #eee;
+    margin: 0 13px 13px 0;
+    padding: 0 20px 0 23px;
+    text-decoration: none;
+    -webkit-transition: color 0.2s
+}
+ul.pointers > li > a:hover{
+    background: crimson;
+    color: #fff;
+    font-weight: bolder;
+}
+ul.pointers > li > a:hover:before{
+    border-left: 13px solid crimson;
+}
+ul.pointers > li > a:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 13px solid #fff;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+}
+ul.pointers > li > a:before {
+    content: "";
+    position: absolute;
+    right: -13px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 13px solid #eee;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+}
+
+
+
+ul.r-pointers{
+  list-style: none;
+  margin: 0px;
+  overflow: hidden;
+  padding: 0;
+}
+ul.r-pointers > li > a{
+    float: left;
+    height: 26px;
+    line-height: 26px;
+    color: #999;
+    position: relative;
+    background: #eee;
+    margin: 0 0 13px 0;
+    padding: 0 20px 0 23px;
+    text-decoration: none;
+    -webkit-transition: color
+}
+ul.r-pointers > li > a:hover{
+    background: crimson;
+    color: #fff;
+    font-weight: bolder;
+}
+ul.r-pointers > li > a:hover:after{
+    border-right: 13px solid crimson;
+}
+ul.r-pointers > li > a:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-right: 13px solid #eee;
+    border-top: 13px solid #fff;
+    border-bottom: 13px solid #fff;
+}
+ul.r-pointers > li > a:before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-right: 13px solid #fff;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+}
+
+ul.list-group > li.list-group-item.active > a { color: #fff}
+ul.list-group > li.list-group-item > a { text-decoration: none}
+
+#changelist .actions span.all, #changelist .actions span.action-counter, #changelist .actions span.clear, #changelist .actions span.question {
+    font-size: 13px;
+    margin: 0 0.5em;
+    display: none;
+}
+
+#changelist .actions {
+    padding: 10px;
+    background: #fff;
+    border-top: none;
+    border-bottom: none;
+    line-height: 24px;
+    color: #999;
+}
+
+thead th {
+    padding: 5px 10px;
+    line-height: normal;
+    text-transform: uppercase;
+    background: #f6f6f6;
+}
+.table thead tr th.sorted {
+    background: #eee;
+}
+.table thead tr th{
+    font-weight: 700;
+    text-align: left;
+}
+.table thead tr th, .table tfoot tr td {
+    color: #666;
+    padding: 5px 10px;
+    font-size: 11px;
+    background: #fff;
+    border: none;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.table>tbody>tr>td, .table>tbody>tr>td {
+    font-size: 13px;
+    line-height: 16px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    padding: 8px;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.table thead th.sorted .sortoptions {
+    display: block;
+    padding: 0 5px 0 5px;
+    float: right;
+    text-align: right;
+}
+.table thead th.sorted .sortoptions a.sortremove {
+    background-position: 0 0;
+}
+
+.table thead th.sorted .sortoptions a.sortremove:after {
+    content: '\\';
+    position: absolute;
+    top: -6px;
+    left: 3px;
+    font-weight: 200;
+    font-size: 18px;
+    color: #999;
+}
+
+.table thead th.sorted .sortoptions a {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    background: url(../img/sorting-icons.svg) 0 0 no-repeat;
+    background-size: 14px auto;
+}
+
+table thead th.sorted .sortoptions a.sortremove:focus:after,
+table thead th.sorted .sortoptions a.sortremove:hover:after {
+    color: #447e9b;
+}
+
+table thead th.sorted .sortoptions a.sortremove:focus,
+table thead th.sorted .sortoptions a.sortremove:hover {
+    background-position: 0 -14px;
+}
+
+table thead th.sorted .sortoptions a.ascending {
+    background-position: 0 -28px;
+}
+
+table thead th.sorted .sortoptions a.ascending:focus,
+table thead th.sorted .sortoptions a.ascending:hover {
+    background-position: 0 -42px;
+}
+
+table thead th.sorted .sortoptions a.descending {
+    top: 1px;
+    background-position: 0 -56px;
+}
+
+table thead th.sorted .sortoptions a.descending:focus,
+table thead th.sorted .sortoptions a.descending:hover {
+    background-position: 0 -70px;
+}
+
+.table thead th.sorted a.sortremove {visibility: hidden;}
+.table thead th.sorted:hover a.sortremove {visibility: visible;}
+.table thead th.sorted .sortpriority {
+    font-size: .8em;
+    min-width: 12px;
+    text-align: center;
+    vertical-align: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.table thead th.sorted .sortoptions a.ascending {
+    background-position: 0 -28px;
+}
+.table thead th.sorted .sortoptions a {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    background: url(../img/sorting-icons.svg) 0 0 no-repeat;
+    background-size: 14px auto;
+}
+.table thead th a:link, thead th a:visited {
+    color: #666;
+}
+.table thead th.sorted .text {
+    padding-right: 60px;
+}
+.clear {clear: both;}
+

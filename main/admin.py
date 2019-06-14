@@ -7,7 +7,8 @@ from django.contrib.admin.utils import unquote
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import AdminPasswordChangeForm
 from django.core.exceptions import PermissionDenied
-from django.db import router, transaction
+from django.db import router, transaction, models
+from django.forms.forms import BoundField
 from django.http import Http404, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.urls import path, reverse, NoReverseMatch
@@ -17,14 +18,37 @@ from django.utils.text import capfirst
 from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-from main.forms import EmployeeCreationForm, EmployeeChangeForm, AdminLoginForm
+from main import widgets as my_widgets
+from django.forms import widgets
+from .helpers import HRMSActionForm
+from .forms import EmployeeCreationForm, EmployeeChangeForm, AdminLoginForm
 from .models import Designation, Employee, Department
-from django.shortcuts import redirect
-import pprint
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 
+
+HORIZONTAL, VERTICAL = 1, 2
+
+
+def get_ul_class(radio_style):
+    return 'radiolist' if radio_style == VERTICAL else 'radiolist inline'
+
+
+# Function to add a control-label class to the labels
+def add_control_label(f):
+    def control_label_tag(self, contents=None, attrs=None, label_suffix=None):
+        print('MONKEYYYYYYYYY')
+        if attrs is None:
+            attrs = {}
+        attrs['class'] = 'control-label'
+        return f(self, contents, attrs, label_suffix)
+
+    return control_label_tag
+
+
+# MonkeyPath the label_tag to add the control Label
+BoundField.label_tag = add_control_label(BoundField.label_tag)
 
 # Override the default AdminSite Class to customize
 class HRMSAdminSite(AdminSite):
@@ -117,11 +141,79 @@ class HRMSAdminSite(AdminSite):
         return result
 
 
+
+
 admin_site = HRMSAdminSite(name='HRMS-admin')
 
 
+class HrmsModelAdmin(admin.ModelAdmin):
+
+    formfield_overrides = {
+        models.CharField: {'widget': widgets.TextInput(attrs={'class': 'form-control'})},
+        models.IntegerField: {'widget': widgets.NumberInput(attrs={'class': 'form-control'})},
+        models.FloatField: {'widget': widgets.NumberInput(attrs={'class': 'form-control'})},
+        models.EmailField: {'widget': widgets.EmailInput(attrs={'class': 'form-control'})},
+        models.TextField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
+        models.BooleanField: {'widget': widgets.CheckboxInput(attrs={'class': 'make-switch form-control'})},
+        # TODO: Create widgets for below Fields
+        # models.DateField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
+        # models.DateTimeField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
+        # models.FilePathField: {},
+        # models.TimeField: {}
+    }
+
+    def formfield_for_choice_field(self, db_field, request, **kwargs):
+        """
+        Get a form Field for a database Field that has declared choices.
+        """
+        # If the field is named as a radio_field, use a RadioSelect
+        if db_field.name in self.radio_fields:
+            # Avoid stomping on custom widget/choices arguments.
+            if 'widget' not in kwargs:
+                kwargs['widget'] = my_widgets.AdminRadioSelect(attrs={
+                    'class': get_ul_class(self.radio_fields[db_field.name]),
+                })
+            if 'choices' not in kwargs:
+                kwargs['choices'] = db_field.get_choices(
+                    include_blank=db_field.blank,
+                    blank_choice=[('', _('None'))]
+                )
+        return db_field.formfield(**kwargs)
+
+    action_form = HRMSActionForm
+
+    def changelist_view(self, request, extra_context=None):
+        cl = self.get_changelist_instance(request)
+        extra_context = dict(
+            title=capfirst(cl.opts.verbose_name_plural),
+            icon=cl.opts.icon
+        )
+        return super(HrmsModelAdmin, self).changelist_view(request, extra_context)
+
+    def formfield_for_choice_field(self, db_field, request, **kwargs):
+        """
+        Get a form Field for a database Field that has declared choices.
+        """
+        # If the field is named as a radio_field, use a RadioSelect
+        if db_field.name in self.radio_fields:
+            # Avoid stomping on custom widget/choices arguments.
+            # if 'widget' not in kwargs:
+            #     kwargs['widget'] = my_widgets.AdminRadioSelect(attrs={
+            #         'class': get_ul_class(self.radio_fields[db_field.name]),
+            #     })
+            if 'choices' not in kwargs:
+                kwargs['choices'] = db_field.get_choices(
+                    include_blank=db_field.blank,
+                    blank_choice=[('', _('None'))]
+                )
+                kwargs['widget'] = my_widgets.BootstrapSelectWidget(attrs={
+                    'class': get_ul_class(self.radio_fields[db_field.name]),
+                }, choices=kwargs['choices'])
+        return db_field.formfield(**kwargs)
+
+
 @admin.register(Designation, site=admin_site)
-class DesignationAdmin(admin.ModelAdmin):
+class DesignationAdmin(HrmsModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
     filter_horizontal = ('permissions',)
@@ -136,16 +228,18 @@ class DesignationAdmin(admin.ModelAdmin):
 
 
 @admin.register(Employee, site=admin_site)
-class EmployeeAdmin(admin.ModelAdmin):
+class EmployeeAdmin(HrmsModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
     change_user_password_template = None
     date_hierarchy = 'date_joined'
+    readonly_fields = ('username', 'password', 'email')
     fieldsets = (
-        (_('Account info'), {'fields': ('username', 'password', 'email')}),
+        (_('Account info'), {'fields': (('username', 'email'),)}),
         (_('Personal info'), {
             'fields': (
                 ('first_name', 'last_name'),
-                'gender', 'dob', 'address',
+                ('gender', 'dob'),
+                'address',
             )
         }),
         (_('Employment info'), {
@@ -174,6 +268,7 @@ class EmployeeAdmin(admin.ModelAdmin):
     # list_editable = ('email', )
     ordering = ('username',)
     filter_horizontal = ('user_permissions',)
+    radio_fields = {"gender": admin.HORIZONTAL}
 
     def has_change_permission(self, request, obj=None):
         # Allow if user is trying to update his own details.
@@ -247,7 +342,6 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     @sensitive_post_parameters_m
     def user_change_password(self, request, id, form_url=''):
-        print("TESLA WAS HEREEEEEEEEEEEE !!!")
         user = self.get_object(request, unquote(id))
         if not self.has_change_permission(request, user):
             raise PermissionDenied
@@ -327,5 +421,5 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 
 @admin.register(Department, site=admin_site)
-class DepartmentAdmin(admin.ModelAdmin):
-    pass
+class DepartmentAdmin(HrmsModelAdmin):
+    list_per_page = 4

@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+
+            <a href="#{{ title }}" data-toggle="collapse">
+                <h3 class="panel-title">By {{ title|capfirst }}</h3>
+            </a>
+
+
+    </div>
+    <div class="panel-collapse collapse" id="{{ title }}">
+        <ul class="list-group" >
+        {% for choice in choices %}
+            <li class="list-group-item {% if choice.selected %}active{% endif %}">
+            <a href="{{ choice.query_string|iriencode }}" title="{{ choice.display }}">{{ choice.display }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>

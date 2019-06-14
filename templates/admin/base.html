@@ -588,7 +588,7 @@
                         {% block content_title %}
                             {% if title %}
                                 <div class="page-title">
-                                    <h1>{{ title }}
+                                    <h1><i class="{{ icon }}"></i> {{ title }}
                                         {% if sub_heading %}
                                         <small>{{ sub_heading }}</small>
                                         {% endif %}
@@ -700,9 +700,11 @@
 
                     {% block messages %}
                         {% if messages %}
-                        <ul class="messagelist">{% for message in messages %}
-                          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
-                        {% endfor %}</ul>
+                        {% for message in messages %}
+                            <ul class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                              <li>{{ message|capfirst }}</li>
+                            </ul>
+                        {% endfor %}
                         {% endif %}
                     {% endblock messages %}
 

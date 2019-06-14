@@ -5,7 +5,7 @@ var ComponentsBootstrapSelect = function () {
             iconBase: 'fa',
             tickIcon: 'fa-check'
         });
-    }
+    };
 
     return {
         //main function to initiate the module
