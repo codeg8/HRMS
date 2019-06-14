@@ -38,7 +38,8 @@ class Employee(AbstractUser):
 
     GENDER_CHOICES = (
         ('M', _('Male')),
-        ('F', _('Female'))
+        ('F', _('Female')),
+        ('O', _('Other')),
     )
 
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=False)

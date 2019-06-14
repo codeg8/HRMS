@@ -1,0 +1,17 @@
+{% with id=widget.attrs.id %}
+<div {% if widget.attrs.class %} class="{{ widget.attrs.class }}"{% endif %} {% if id %}id="{{ id }}"{% endif %}>
+    {% for group, options, index in widget.optgroups %}
+        {% if group %}{% endif %}
+        {% for option in options %}
+        <div class="md-radio">
+            <input type="radio" {% if id %} id="{{ id }}_{{ index }}"{% endif %} class="md-radiobtn" name="{{ option.name }}" {% if option.value != None %} value="{{ option.value|stringformat:'s' }}"{% endif %} {% if option.attrs.checked %} checked{% endif %}>
+            <label {% if option.attrs.id %} for="{{ option.attrs.id }}"{% endif %}>
+                <span></span>
+                <span class="check"></span>
+                <span class="box"></span> {{ option.label }}
+            </label>
+        </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endwith %}

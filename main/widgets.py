@@ -1,6 +1,5 @@
 from django import forms
 from django.conf import settings
-from django.forms import widgets
 
 
 class BootstrapSelectWidget(forms.Select):
@@ -23,7 +22,13 @@ class BootstrapSelectWidget(forms.Select):
 
 
 class HRMSRadioSelect(forms.RadioSelect):
-    template_name = 'main/widgets/radio1.html'
+    template_name = 'admin/widgets/abc.html'
+
+    def __init__(self, attrs=None, choices=()):
+        final_attrs = {'class': 'md-radiobtn'}
+        if attrs is not None:
+            final_attrs.update(attrs)
+        super().__init__(attrs=attrs, choices=choices)
 
 
 class DatePicker(forms.TextInput):
@@ -117,4 +122,4 @@ class BootstrapSwitchInput(forms.CheckboxInput):
 
 
 class AdminRadioSelect(forms.RadioSelect):
-    template_name = 'admin/widgets/radio.html'
+    template_name = 'admin/main/widgets/radio.html'

@@ -32,16 +32,15 @@ HORIZONTAL, VERTICAL = 1, 2
 
 
 def get_ul_class(radio_style):
-    return 'radiolist' if radio_style == VERTICAL else 'radiolist inline'
+    return 'md-radio-list' if radio_style == VERTICAL else 'md-radio-inline'
 
 
 # Function to add a control-label class to the labels
 def add_control_label(f):
     def control_label_tag(self, contents=None, attrs=None, label_suffix=None):
-        print('MONKEYYYYYYYYY')
         if attrs is None:
             attrs = {}
-        attrs['class'] = 'control-label'
+        attrs['class'] = 'control-label col-md-3'
         return f(self, contents, attrs, label_suffix)
 
     return control_label_tag
@@ -141,8 +140,6 @@ class HRMSAdminSite(AdminSite):
         return result
 
 
-
-
 admin_site = HRMSAdminSite(name='HRMS-admin')
 
 
@@ -170,7 +167,7 @@ class HrmsModelAdmin(admin.ModelAdmin):
         if db_field.name in self.radio_fields:
             # Avoid stomping on custom widget/choices arguments.
             if 'widget' not in kwargs:
-                kwargs['widget'] = my_widgets.AdminRadioSelect(attrs={
+                kwargs['widget'] = my_widgets.HRMSRadioSelect(attrs={
                     'class': get_ul_class(self.radio_fields[db_field.name]),
                 })
             if 'choices' not in kwargs:
@@ -189,27 +186,6 @@ class HrmsModelAdmin(admin.ModelAdmin):
             icon=cl.opts.icon
         )
         return super(HrmsModelAdmin, self).changelist_view(request, extra_context)
-
-    def formfield_for_choice_field(self, db_field, request, **kwargs):
-        """
-        Get a form Field for a database Field that has declared choices.
-        """
-        # If the field is named as a radio_field, use a RadioSelect
-        if db_field.name in self.radio_fields:
-            # Avoid stomping on custom widget/choices arguments.
-            # if 'widget' not in kwargs:
-            #     kwargs['widget'] = my_widgets.AdminRadioSelect(attrs={
-            #         'class': get_ul_class(self.radio_fields[db_field.name]),
-            #     })
-            if 'choices' not in kwargs:
-                kwargs['choices'] = db_field.get_choices(
-                    include_blank=db_field.blank,
-                    blank_choice=[('', _('None'))]
-                )
-                kwargs['widget'] = my_widgets.BootstrapSelectWidget(attrs={
-                    'class': get_ul_class(self.radio_fields[db_field.name]),
-                }, choices=kwargs['choices'])
-        return db_field.formfield(**kwargs)
 
 
 @admin.register(Designation, site=admin_site)
