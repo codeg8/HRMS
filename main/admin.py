@@ -40,7 +40,7 @@ def add_control_label(f):
     def control_label_tag(self, contents=None, attrs=None, label_suffix=None):
         if attrs is None:
             attrs = {}
-        attrs['class'] = 'control-label col-md-3'
+        attrs['class'] = 'control-label'
         return f(self, contents, attrs, label_suffix)
 
     return control_label_tag

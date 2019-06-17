@@ -49,10 +49,11 @@ class EmployeeChangeForm(UserChangeForm):
         fields = '__all__'
         field_classes = {'username': UsernameField}
 
-    BIRTH_YEAR_CHOICES = tuple(_ for _ in range(1950, datetime.datetime.now().year))
+    # BIRTH_YEAR_CHOICES = tuple(_ for _ in range(1950, datetime.datetime.now().year))
 
-    dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES), label='Date of Birth',
-                          required=False)
+    # dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES), label='Date of Birth',
+    # required=False)
+    dob = forms.DateField(widget=DatePicker(attrs={"class": 'form-control'}), label='Date of Birth')
     date_joined = forms.DateField(widget=DatePicker(attrs={"class": 'form-control'}))
     address = forms.CharField(widget=forms.Textarea(attrs={"rows": 5, "cols": 30, "class": 'form-control'}),
                               required=False)
