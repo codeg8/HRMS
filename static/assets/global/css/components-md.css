@@ -20455,3 +20455,4 @@ Color library demo
 .form-group {margin-bottom: 25px !important;}
 label{font-size: 13px;color: #888}
 fieldset h3{margin-bottom: 30px}
+label.read-only{margin-top: 7px}

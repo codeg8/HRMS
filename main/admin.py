@@ -20,6 +20,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from main import widgets as my_widgets
 from django.forms import widgets
+from django.contrib.admin import widgets as admin_widgets
 from .helpers import HRMSActionForm
 from .forms import EmployeeCreationForm, EmployeeChangeForm, AdminLoginForm
 from .models import Designation, Employee, Department
@@ -42,12 +43,12 @@ def add_control_label(f):
             attrs = {}
         attrs['class'] = 'control-label'
         return f(self, contents, attrs, label_suffix)
-
     return control_label_tag
 
 
 # MonkeyPath the label_tag to add the control Label
 BoundField.label_tag = add_control_label(BoundField.label_tag)
+
 
 # Override the default AdminSite Class to customize
 class HRMSAdminSite(AdminSite):
@@ -152,6 +153,7 @@ class HrmsModelAdmin(admin.ModelAdmin):
         models.EmailField: {'widget': widgets.EmailInput(attrs={'class': 'form-control'})},
         models.TextField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
         models.BooleanField: {'widget': widgets.CheckboxInput(attrs={'class': 'make-switch form-control'})},
+        models.ForeignKey: {'widget': my_widgets.BootstrapSelectWidget(attrs={'class': 'form-control bs-select'})}
         # TODO: Create widgets for below Fields
         # models.DateField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
         # models.DateTimeField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
@@ -175,6 +177,30 @@ class HrmsModelAdmin(admin.ModelAdmin):
                     include_blank=db_field.blank,
                     blank_choice=[('', _('None'))]
                 )
+        return db_field.formfield(**kwargs)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """
+        Get a form Field for a ForeignKey.
+        """
+        db = kwargs.get('using')
+        if 'widget' not in kwargs:
+            if db_field.name in self.get_autocomplete_fields(request):
+                # kwargs['widget'] = AutocompleteSelect(db_field.remote_field, self.admin_site, using=db)
+                pass
+            elif db_field.name in self.raw_id_fields:
+                kwargs['widget'] = admin_widgets.ForeignKeyRawIdWidget(db_field.remote_field, self.admin_site, using=db)
+            elif db_field.name in self.radio_fields:
+                kwargs['widget'] = admin_widgets.AdminRadioSelect(attrs={
+                    'class': get_ul_class(self.radio_fields[db_field.name]),
+                })
+                kwargs['empty_label'] = _('None') if db_field.blank else None
+
+        if 'queryset' not in kwargs:
+            queryset = self.get_field_queryset(db, db_field, request)
+            if queryset is not None:
+                kwargs['queryset'] = queryset
+
         return db_field.formfield(**kwargs)
 
     action_form = HRMSActionForm
@@ -208,7 +234,7 @@ class EmployeeAdmin(HrmsModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
     change_user_password_template = None
     date_hierarchy = 'date_joined'
-    readonly_fields = ('username', 'password', 'email')
+    # readonly_fields = ('username', 'password', 'email')
     fieldsets = (
         (_('Account info'), {'fields': (('username', 'email'),)}),
         (_('Personal info'), {
