@@ -3,7 +3,6 @@
 
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
-{{ media }}
 {% endblock %}
 
 {% block extrastyle %}
@@ -120,6 +119,7 @@
 
 {% block extrascript %}
     {{ block.super }}
+    {{ media }}
     {{ adminform.media.js }}
     {% if cl.formset or action_form %}
       <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>

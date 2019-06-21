@@ -20456,3 +20456,4 @@ Color library demo
 label{font-size: 13px;color: #888}
 fieldset h3{margin-bottom: 30px}
 label.read-only{margin-top: 7px}
+.bs-select.bootstrap-select.form-control:not([class*="col-"]){width: 90%}
