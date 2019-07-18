@@ -39,6 +39,9 @@
                         <div class="form-group">
                             {{ field.label_tag }}
                             {{ field.field }}
+                            {% if field.field.help_text %}
+                                <span class="help-block">{{ field.field.help_text|safe }}</span>
+                            {% endif %}
                         </div>
                     {% else %}
                         <div class="form-group form-md-line-input form-md-floating-label">
