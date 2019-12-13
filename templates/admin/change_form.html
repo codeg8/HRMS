@@ -103,10 +103,7 @@
 
                                     {% block after_related_objects %}{% endblock %}
                                 </div>
-                                <div class="form-actions">
-                                    <hr>
-                                    {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
-                                </div>
+                                {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
                             </form>
                         </div>
                     </div>

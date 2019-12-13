@@ -153,7 +153,7 @@ class HrmsModelAdmin(admin.ModelAdmin):
         models.EmailField: {'widget': widgets.EmailInput(attrs={'class': 'form-control'})},
         models.TextField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
         models.BooleanField: {'widget': widgets.CheckboxInput(attrs={'class': 'make-switch form-control'})},
-        models.ForeignKey: {'widget': my_widgets.BootstrapSelectWidget(attrs={'class': 'form-control bs-select'})}
+        # models.ForeignKey: {'widget': my_widgets.BootstrapSelectWidget(attrs={'class': 'form-control bs-select'})}
         # TODO: Create widgets for below Fields
         # models.DateField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},
         # models.DateTimeField: {'widget': widgets.Textarea(attrs={'class': 'form-control'})},

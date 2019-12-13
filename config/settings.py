@@ -77,8 +77,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'hrms_app',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': 'dashboard',
+        'PASSWORD': 'dashboard',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
