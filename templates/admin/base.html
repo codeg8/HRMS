@@ -65,6 +65,7 @@
     <!-- END HEAD -->
 
     <body class="{% block bodyclass %}page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo page-md{% endblock %}" data-admin-utc-offset="{% now "Z" %}">
+        {% block page %}
         <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
             <!-- BEGIN HEADER INNER -->
@@ -480,7 +481,7 @@
                                                         <i class="icon-lock"></i> Lock Screen </a>
                                                 </li>
                                                 <li>
-                                                    <a href="{% url 'admin:logout' %}">
+                                                    <a href="{% url 'admin:logout' %}?next={% url 'admin:login' %}">
                                                         <i class="fa fa-sign-out"></i> {% trans 'Log out' %}</a>
                                                 </li>
                                             </ul>
@@ -1282,6 +1283,7 @@
             </div>
             <!-- END QUICK SIDEBAR -->
         </div>
+        {% endblock %}
         <!-- END CONTAINER -->
         {% block footer %}
         <!-- BEGIN FOOTER -->

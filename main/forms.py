@@ -11,8 +11,20 @@ from django.contrib.admin.widgets import AdminDateWidget
 import datetime
 
 class AdminLoginForm(AuthenticationForm):
-    pass
-    # redirect('admin:auth_user_password_change', id=user.pk)
+
+    username = UsernameField(widget=forms.TextInput(attrs={
+        'autofocus': True,
+        'class': 'form-control form-control-solid placeholder-no-fix',
+        'placeholder': 'Username',
+    }))
+    password = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control form-control-solid placeholder-no-fix',
+            'placeholder': 'Password'
+        }),
+    )
 
 
 class EmployeeCreationForm(UserCreationForm):

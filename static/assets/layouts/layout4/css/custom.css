@@ -301,6 +301,9 @@ table thead th.sorted .sortoptions a.descending:hover {
 ul.alert li{ margin-left: 30px}
 
 
+select.f-dd {width: 88%; display: inline-block;}
+
+
 /* SELECTOR (FILTER INTERFACE) */
 
 .m-selector {

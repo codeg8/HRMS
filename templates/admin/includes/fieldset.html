@@ -31,7 +31,7 @@
         {% endcomment %}
 
         <div class="row {% if line.fields|length_is:'1' and line.errors %} errors{% endif %}{% if not line.has_visible_field %} hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
-            {% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}
+{#            {% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}#}
             {% for field in line %}
                 <div class="col-md-{% widthratio 12 line.fields|length 1 %} field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} has-error{% endif %}{% if field.field.is_hidden %} hidden{% endif %}">
                     {% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
@@ -44,7 +44,7 @@
                             {% endif %}
                         </div>
                     {% else %}
-                        <div class="form-group form-md-line-input form-md-floating-label">
+                        <div class="form-group form-md-line-input form-md-floating-label {% if not field.is_readonly and field.errors %} has-error{% endif %}">
                             {% if field.is_readonly %}
                                 <label class="control-label col-md-3 read-only">{{ field.field.label|capfirst }}:</label>
                                 <div class="col-md-9">
