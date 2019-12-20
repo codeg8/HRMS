@@ -1,0 +1,48 @@
+{% load i18n admin_urls %}
+<div class="form-actions submit-row right">
+    {% if show_save %}
+        <div class="btn-group">
+            <a href="javascript:clickElement('_save')" class="btn btn-success"><i class="fa fa-save"></i> {% trans 'Save' %}</a>
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100" data-close-others="true" aria-expanded="false">
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                {% if show_save_as_new %}
+                    <li>
+                        <a href="javascript:clickElement('_saveasnew')">{% trans 'Save as new' %}</a>
+                    </li>
+                    <li class="separator"></li>
+                {% endif %}
+                {% if show_save_and_add_another %}
+                    <li>
+                        <a href="javascript:clickElement('_addanother')">{% trans 'Save and add another' %}</a>
+                    </li>
+                    <li class="separator"></li>
+                {% endif %}
+                {% if show_save_and_continue %}
+                    <li>
+                        <a href="javascript:clickElement('_continue')">{% trans 'Save and continue editing' %}</a>
+                    </li>
+                    <li class="separator"></li>
+                {% endif %}
+            </ul>
+            <input type="submit" id="_save"  value="{% trans 'Save' %}" class="hidden" name="_save" />
+            {% if show_save_as_new %}<input type="submit" id="_saveasnew" value="{% trans 'Save as new' %}" class="hidden" name="_saveasnew" />{% endif %}
+            {% if show_save_and_add_another %}<input type="submit" id="_addanother" value="{% trans 'Save and add another' %}" class="hidden" name="_addanother" />{% endif %}
+            {% if show_save_and_continue %}<input type="submit" id="_continue" value="{% trans 'Save and continue editing' %}" class="hidden" name="_continue" />{% endif %}
+        </div>
+    {% endif %}
+    {% if show_close %}<a href="{% url opts|admin_urlname:'changelist' %}" class="btn default closelink">{% trans 'Close' %}</a>{% endif %}
+    {% if show_delete_link %}
+        {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+        <a href="{% add_preserved_filters delete_url %}" class="btn btn-danger deletelink " data-title="{% trans "Delete" %}"><i class="fa fa-trash"></i> {% trans "Delete" %}</a>
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+    (function () {
+        window.clickElement = function (element_id) {
+            document.getElementById(element_id).click();
+        }
+    })();
+</script>

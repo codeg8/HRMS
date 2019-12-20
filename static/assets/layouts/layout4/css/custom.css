@@ -1,0 +1,579 @@
+/* here you can put your own css to customize and override the theme */
+.mt-actions .mt-action .mt-action-body .mt-action-row .mt-action-buttons{width: 170px;}
+.feeds li .col1>.cont>.cont-col2>.desc{font-size: 12px;}
+.feeds li .col2>.date{font-size:9px;}
+.tags {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.table thead th.action-checkbox-column{width: 50px}
+
+.tags li {
+  float: left;
+}
+
+.tag {
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: #999;
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 20px 0 23px;
+  position: relative;
+  margin: 0 10px 10px 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+}
+
+.tag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: '';
+  height: 6px;
+  left: 10px;
+  position: absolute;
+  width: 6px;
+  top: 10px;
+}
+
+.tag::after {
+  background: #fff;
+  border-bottom: 13px solid transparent;
+  border-left: 10px solid #eee;
+  border-top: 13px solid transparent;
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.tag:hover {
+  background-color: crimson;
+  color: white;
+  text-decoration: none;
+}
+
+.tag:hover::after {
+   border-left-color: crimson;
+}
+
+ul.pointers{
+  list-style: none;
+  margin: 0px;
+  overflow: hidden;
+  padding: 0;
+}
+ul.pointers > li > a{
+    float: left;
+    height: 26px;
+    line-height: 26px;
+    color: #999;
+    position: relative;
+    background: #eee;
+    margin: 0 13px 13px 0;
+    padding: 0 20px 0 23px;
+    text-decoration: none;
+    -webkit-transition: color 0.2s
+}
+ul.pointers > li > a:hover{
+    background: crimson;
+    color: #fff;
+    font-weight: bolder;
+}
+ul.pointers > li > a:hover:before{
+    border-left: 13px solid crimson;
+}
+ul.pointers > li > a:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 13px solid #fff;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+}
+ul.pointers > li > a:before {
+    content: "";
+    position: absolute;
+    right: -13px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 13px solid #eee;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+}
+
+
+
+ul.r-pointers{
+  list-style: none;
+  margin: 0px;
+  overflow: hidden;
+  padding: 0;
+}
+ul.r-pointers > li > a{
+    float: left;
+    height: 26px;
+    line-height: 26px;
+    color: #999;
+    position: relative;
+    background: #eee;
+    margin: 0 0 13px 0;
+    padding: 0 20px 0 23px;
+    text-decoration: none;
+    -webkit-transition: color
+}
+ul.r-pointers > li > a:hover{
+    background: crimson;
+    color: #fff;
+    font-weight: bolder;
+}
+ul.r-pointers > li > a:hover:after{
+    border-right: 13px solid crimson;
+}
+ul.r-pointers > li > a:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-right: 13px solid #eee;
+    border-top: 13px solid #fff;
+    border-bottom: 13px solid #fff;
+}
+ul.r-pointers > li > a:before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-right: 13px solid #fff;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+}
+
+ul.list-group > li.list-group-item.active > a { color: #fff}
+ul.list-group > li.list-group-item > a { text-decoration: none}
+
+#changelist .actions span.all, #changelist .actions span.action-counter, #changelist .actions span.clear, #changelist .actions span.question {
+    font-size: 13px;
+    margin: 0 0.5em;
+    display: none;
+}
+
+#changelist .actions {
+    padding: 10px;
+    background: #fff;
+    border-top: none;
+    border-bottom: none;
+    line-height: 24px;
+    color: #999;
+}
+
+thead th {
+    padding: 5px 10px;
+    line-height: normal;
+    text-transform: uppercase;
+    background: #f6f6f6;
+}
+.table thead tr th.sorted {
+    background: #eee;
+}
+.table thead tr th{
+    font-weight: 700;
+    text-align: left;
+}
+.table thead tr th, .table tfoot tr td {
+    color: #666;
+    padding: 5px 10px;
+    font-size: 11px;
+    background: #fff;
+    border: none;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.table>tbody>tr>td, .table>tbody>tr>td {
+    font-size: 13px;
+    line-height: 16px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    padding: 8px;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.table thead th.sorted .sortoptions {
+    display: block;
+    padding: 0 5px 0 5px;
+    float: right;
+    text-align: right;
+}
+.table thead th.sorted .sortoptions a.sortremove {
+    background-position: 0 0;
+}
+
+.table thead th.sorted .sortoptions a.sortremove:after {
+    content: '\\';
+    position: absolute;
+    top: -6px;
+    left: 3px;
+    font-weight: 200;
+    font-size: 18px;
+    color: #999;
+}
+
+.table thead th.sorted .sortoptions a {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    background: url(../img/sorting-icons.svg) 0 0 no-repeat;
+    background-size: 14px auto;
+}
+
+table thead th.sorted .sortoptions a.sortremove:focus:after,
+table thead th.sorted .sortoptions a.sortremove:hover:after {
+    color: #447e9b;
+}
+
+table thead th.sorted .sortoptions a.sortremove:focus,
+table thead th.sorted .sortoptions a.sortremove:hover {
+    background-position: 0 -14px;
+}
+
+table thead th.sorted .sortoptions a.ascending {
+    background-position: 0 -28px;
+}
+
+table thead th.sorted .sortoptions a.ascending:focus,
+table thead th.sorted .sortoptions a.ascending:hover {
+    background-position: 0 -42px;
+}
+
+table thead th.sorted .sortoptions a.descending {
+    top: 1px;
+    background-position: 0 -56px;
+}
+
+table thead th.sorted .sortoptions a.descending:focus,
+table thead th.sorted .sortoptions a.descending:hover {
+    background-position: 0 -70px;
+}
+
+.table thead th.sorted a.sortremove {visibility: hidden;}
+.table thead th.sorted:hover a.sortremove {visibility: visible;}
+.table thead th.sorted .sortpriority {
+    font-size: .8em;
+    min-width: 12px;
+    text-align: center;
+    vertical-align: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.table thead th.sorted .sortoptions a.ascending {
+    background-position: 0 -28px;
+}
+.table thead th.sorted .sortoptions a {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    background: url(../img/sorting-icons.svg) 0 0 no-repeat;
+    background-size: 14px auto;
+}
+.table thead th a:link, thead th a:visited {
+    color: #666;
+}
+.table thead th.sorted .text {
+    padding-right: 60px;
+}
+.clear {clear: both;}
+
+ul.alert li{ margin-left: 30px}
+
+
+select.f-dd {width: 88%; display: inline-block;}
+
+
+/* SELECTOR (FILTER INTERFACE) */
+
+.m-selector {
+    width: 800px;
+    float: left;
+}
+
+.m-selector select {
+    width: 380px;
+    height: 17.2em;
+}
+
+.selector-available, .selector-chosen {
+    float: left;
+    width: 380px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.selector-chosen select {
+    border-top: none;
+}
+
+.selector-available h2, .selector-chosen h2 {
+    border: 1px solid #ccc;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    padding: 5px 0 5px 0;
+}
+
+.selector-chosen h2 {
+    background: #32c5d2;
+    color: #fff;
+}
+
+.m-selector .selector-available h2 {
+    background: #f8f8f8;
+    color: #666;
+}
+
+.m-selector .selector-filter {
+    background: white;
+    border: 1px solid #ccc;
+    border-width: 0 1px;
+    padding: 8px;
+    color: #999;
+    font-size: 10px;
+    margin: 0;
+    text-align: left;
+}
+
+.m-selector .selector-filter label,
+.inline-group .aligned .selector .selector-filter label {
+    float: left;
+    margin: 7px 0 0;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    overflow: hidden;
+    line-height: 1;
+}
+
+.m-selector .selector-available input {
+    width: 315px;
+    margin-left: 25px;
+}
+
+.m-selector ul.selector-chooser {
+    float: left;
+    width: 22px;
+    background-color: #eee;
+    border-radius: 10px;
+    margin: 10em 5px 0 5px;
+    padding: 0;
+}
+
+.selector-chooser li {
+    margin: 0;
+    padding: 3px;
+    list-style-type: none;
+}
+
+.m-selector select {
+    padding: 0 10px;
+    margin: 0 0 10px;
+    border-radius: 0 0 4px 4px;
+}
+
+.selector-add, .selector-remove {
+    width: 16px;
+    height: 16px;
+    display: block;
+    text-indent: -3000px;
+    overflow: hidden;
+    cursor: default;
+    opacity: 0.3;
+}
+
+.active.selector-add, .active.selector-remove {
+    opacity: 1;
+}
+
+.active.selector-add:hover, .active.selector-remove:hover {
+    cursor: pointer;
+}
+
+.selector-add {
+    background: url(../../../../admin/img/selector-icons.svg) 0 -96px no-repeat;
+}
+
+.active.selector-add:focus, .active.selector-add:hover {
+    background-position: 0 -112px;
+}
+
+.selector-remove {
+    background: url(../../../../admin/img/selector-icons.svg) 0 -64px no-repeat;
+}
+
+.active.selector-remove:focus, .active.selector-remove:hover {
+    background-position: 0 -80px;
+}
+
+a.selector-chooseall, a.selector-clearall {
+    display: inline-block;
+    height: 16px;
+    text-align: left;
+    margin: 1px auto 3px;
+    overflow: hidden;
+    font-weight: bold;
+    line-height: 16px;
+    color: #666;
+    text-decoration: none;
+    opacity: 0.3;
+}
+
+a.active.selector-chooseall:focus, a.active.selector-clearall:focus,
+a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
+    color: #447e9b;
+}
+
+a.active.selector-chooseall, a.active.selector-clearall {
+    opacity: 1;
+}
+
+a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
+    cursor: pointer;
+}
+
+a.selector-chooseall {
+    padding: 0 18px 0 0;
+    background: url(../../../../admin/img/selector-icons.svg) right -160px no-repeat;
+    cursor: default;
+}
+
+a.active.selector-chooseall:focus, a.active.selector-chooseall:hover {
+    background-position: 100% -176px;
+}
+
+a.selector-clearall {
+    padding: 0 0 0 18px;
+    background: url(../../../../admin/img/selector-icons.svg) 0 -128px no-repeat;
+    cursor: default;
+}
+
+a.active.selector-clearall:focus, a.active.selector-clearall:hover {
+    background-position: 0 -144px;
+}
+
+/* STACKED SELECTORS */
+
+.stacked {
+    float: left;
+    width: 490px;
+}
+
+.stacked select {
+    width: 480px;
+    height: 10.1em;
+}
+
+.stacked .selector-available, .stacked .selector-chosen {
+    width: 480px;
+}
+
+.stacked .selector-available {
+    margin-bottom: 0;
+}
+
+.stacked .selector-available input {
+    width: 422px;
+}
+
+.stacked ul.selector-chooser {
+    height: 22px;
+    width: 50px;
+    margin: 0 0 10px 40%;
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+.stacked .selector-chooser li {
+    float: left;
+    padding: 3px 3px 3px 5px;
+}
+
+.stacked .selector-chooseall, .stacked .selector-clearall {
+    display: none;
+}
+
+.stacked .selector-add {
+    background: url(../../../../admin/img/selector-icons.svg) 0 -32px no-repeat;
+    cursor: default;
+}
+
+.stacked .active.selector-add {
+    background-position: 0 -48px;
+    cursor: pointer;
+}
+
+.stacked .selector-remove {
+    background: url(../../../../admin/img/selector-icons.svg) 0 0 no-repeat;
+    cursor: default;
+}
+
+.stacked .active.selector-remove {
+    background-position: 0 -16px;
+    cursor: pointer;
+}
+
+.m-selector .help-icon {
+    background: url(../../../../admin/img/icon-unknown.svg) 0 0 no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    margin: -2px 0 0 2px;
+    width: 13px;
+    height: 13px;
+}
+
+.m-selector .selector-chosen .help-icon {
+    background: url(../../../../admin/img/icon-unknown-alt.svg) 0 0 no-repeat;
+}
+
+.m-selector .search-label-icon {
+    background: url(../../../../admin/img/search.svg) 0 0 no-repeat;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+}
+
+
+/* RELATED WIDGET WRAPPER */
+.related-widget-wrapper {
+    overflow: hidden;  /* clear floated contents */
+}
+
+.related-widget-wrapper-link {
+    opacity: 0.3;
+}
+
+.related-widget-wrapper-link:link {
+    opacity: .8;
+}
+
+.related-widget-wrapper-link:link:focus,
+.related-widget-wrapper-link:link:hover {
+    opacity: 1;
+}
+
+select + .related-widget-wrapper-link,
+.related-widget-wrapper-link + .related-widget-wrapper-link {
+    margin-left: 7px;
+}

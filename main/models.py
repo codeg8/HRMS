@@ -3,10 +3,17 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from .model_manager import EmployeeManager
 from django.utils.translation import ugettext_lazy as _
 from config.settings import COMPANY_EMP_ID_FORMAT
+import django.db.models.options as options
+
+options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('icon',)
 
 
 # Create your models here.
 class Department(models.Model):
+
+    class Meta:
+        icon = _('icon-grid')
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -20,19 +27,22 @@ class Designation(Group):
         db_table = _('main_designation')
         verbose_name = _('designation')
         verbose_name_plural = _('designations')
+        icon = _('icon-badge')
 
 
 class Employee(AbstractUser):
     class Meta:
         verbose_name = _('employee')
         verbose_name_plural = _('employees')
+        icon = _('icon-users')
 
     GENDER_CHOICES = (
         ('M', _('Male')),
-        ('F', _('Female'))
+        ('F', _('Female')),
+        ('O', _('Other')),
     )
 
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=False)
     address = models.TextField(max_length=200, null=True, blank=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     groups = models.ForeignKey(
@@ -40,9 +50,7 @@ class Employee(AbstractUser):
         verbose_name=_('Designation'),
         on_delete=models.SET_NULL,
         null=True,
-        help_text=_(
-            'Default Permission for different modules in Portal depends upon employee\'s Designation.'
-        )
+        help_text=_('Default Permission for different modules in Portal depends upon employee\'s Designation.')
     )
     user_permissions = models.ManyToManyField(
         Permission,

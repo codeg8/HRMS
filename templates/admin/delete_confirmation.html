@@ -1,0 +1,89 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {{ media }}
+    <script type="text/javascript" src="{% static 'admin/js/cancel.js' %}"></script>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} delete-confirmation{% endblock %}
+
+{% if not is_popup %}
+    {% block breadcrumbs %}
+        <!-- BEGIN PAGE BREADCRUMB -->
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="{% url opts|admin_urlname:'change' object.pk|admin_urlquote %}">{{ object|truncatewords:"18" }}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">{% trans 'Delete' %}</span>
+            </li>
+        </ul>
+        <!-- END PAGE BREADCRUMB -->
+    {% endblock %}
+{% endif %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title table-line">
+                <div class="caption">
+                    <i class="font-green icon-list"></i>
+                    <span class="caption-subject font-green">{{ object }} Deletion</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:void(0);" data-original-title="" title=""> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                {% if perms_lacking %}
+                    <p>{% blocktrans with escaped_object=object %}Deleting the {{ object_name }} '{{ escaped_object }}' would result in deleting related objects, but your account doesn't have permission to delete the following types of objects:{% endblocktrans %}</p>
+                    <ul>
+                    {% for obj in perms_lacking %}
+                        <li>{{ obj }}</li>
+                    {% endfor %}
+                    </ul>
+                {% elif protected %}
+                    <p>{% blocktrans with escaped_object=object %}Deleting the {{ object_name }} '{{ escaped_object }}' would require deleting the following protected related objects:{% endblocktrans %}</p>
+                    <ul>
+                    {% for obj in protected %}
+                        <li>{{ obj }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>{% blocktrans with escaped_object=object %}You are about to delete the {{ object_name }} "{{ escaped_object }}". All of the following related items will be deleted:{% endblocktrans %}</p>
+                    {% include "admin/includes/object_delete_summary.html" %}
+                    <h2>{% trans "Objects" %}</h2>
+                    <ul>{{ deleted_objects|unordered_list }}</ul>
+                    <p>Are you Sure you want to delete ?</p>
+                    <form method="post">{% csrf_token %}
+                    <div>
+                    <input type="hidden" name="post" value="yes" />
+                    {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1" />{% endif %}
+                    {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}" />{% endif %}
+                    <input type="submit" class="btn btn-danger" value="{% trans "Yes, I'm sure" %}" />
+                    <a href="javascript:window.history.back()" class="btn btn-default cancel-link">{% trans "No, take me back" %}</a>
+                    </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
