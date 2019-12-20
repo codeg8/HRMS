@@ -72,15 +72,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'hrms_app',
+#         'USER': 'dashboard',
+#         'PASSWORD': 'dashboard',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#     }
+# }
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'hrms_app',
-        'USER': 'dashboard',
-        'PASSWORD': 'dashboard',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
     }
 }
 
