@@ -24,7 +24,7 @@ SECRET_KEY = 'qb!ia(1nu8q%r!vl74o%@#4bb6@nc+60muevhb=u52$*&rdv2i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['hmrs.herokuapp.com']
+ALLOWED_HOSTS = ['hmrs.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -73,23 +73,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 #
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'hrms_app',
-#         'USER': 'dashboard',
-#         'PASSWORD': 'dashboard',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'hrms_app',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'RywzRSPipV',
+        'USER': 'RywzRSPipV',
+        'PASSWORD': 'cg7dlLzgP4',
+        'HOST': 'remotemysql.com',
+        'PORT': '3306',
     }
 }
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'hrms_app',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
