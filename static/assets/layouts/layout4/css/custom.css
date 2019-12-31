@@ -577,3 +577,6 @@ select + .related-widget-wrapper-link,
 .related-widget-wrapper-link + .related-widget-wrapper-link {
     margin-left: 7px;
 }
+
+
+.has-error .md-radio label, .has-error.md-radio label{color:#e73d4a}

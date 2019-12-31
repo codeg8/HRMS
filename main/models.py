@@ -74,6 +74,7 @@ class Employee(AbstractUser):
         on_delete=models.SET_NULL,
         related_name=_('manger'),
         null=True,
+        blank=True,
     )
     REQUIRED_FIELDS = []
     objects = EmployeeManager()

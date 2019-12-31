@@ -156,6 +156,23 @@ class HRMSAdminSite(AdminSite):
             return HttpResponseRedirect(reverse('admin:auth_user_password_change', args=[user.id]))
         return r
 
+    def password_change(self, request, extra_context=None):
+        """
+        Handle the "change password" task -- both form display and validation.
+        """
+        from main.forms import AdminPasswordChangeForm
+        from django.contrib.auth.views import PasswordChangeView
+        url = reverse('admin:password_change_done', current_app=self.name)
+        defaults = {
+            'form_class': AdminPasswordChangeForm,
+            'success_url': url,
+            'extra_context': {**self.each_context(request), **(extra_context or {})},
+        }
+        if self.password_change_template is not None:
+            defaults['template_name'] = self.password_change_template
+        request.current_app = self.name
+        return PasswordChangeView.as_view(**defaults)(request)
+
 
 admin_site = HRMSAdminSite(name='HRMS-admin')
 
@@ -440,4 +457,4 @@ class EmployeeAdmin(HrmsModelAdmin):
 
 @admin.register(Department, site=admin_site)
 class DepartmentAdmin(HrmsModelAdmin):
-    list_per_page = 4
+    pass

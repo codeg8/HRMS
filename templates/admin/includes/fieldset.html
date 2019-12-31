@@ -34,13 +34,14 @@
 {#            {% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}#}
             {% for field in line %}
                 <div class="col-md-{% widthratio 12 line.fields|length 1 %} field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} has-error{% endif %}{% if field.field.is_hidden %} hidden{% endif %}">
-                    {% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
                     {% if field.is_checkbox or field.field.field.choices|length %}
                         <div class="form-group">
                             {{ field.label_tag }}
                             {{ field.field }}
                             {% if field.field.help_text %}
                                 <span class="help-block">{{ field.field.help_text|safe }}</span>
+                            {% elif not line.fields|length_is:'1' and not field.is_readonly %}
+                                <span class="help-block">{{ field.errors }}</span>
                             {% endif %}
                         </div>
                     {% else %}
@@ -56,6 +57,8 @@
                             {% endif %}
                             {% if field.field.help_text %}
                                 <span class="help-block">{{ field.field.help_text|safe }}</span>
+                            {% elif not field.is_readonly and field.errors %}
+                                <span class="help-block">{{ field.errors }}</span>
                             {% endif %}
                         </div>
                     {% endif %}
