@@ -267,7 +267,7 @@ class EmployeeAdmin(HrmsModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
     change_user_password_template = None
     date_hierarchy = 'date_joined'
-    # readonly_fields = ('username', 'password', 'email')
+    readonly_fields = ('username', 'password', 'email')
     fieldsets = (
         (_('Account info'), {'fields': (('username', 'email'),)}),
         (_('Personal info'), {
@@ -288,7 +288,7 @@ class EmployeeAdmin(HrmsModelAdmin):
         }),
     )
     add_fieldsets = (
-        (None, {
+        (_('Account info'), {
             'classes': ('wide',),
             'fields': ('username', 'password1', 'password2'),
         }),
@@ -308,6 +308,10 @@ class EmployeeAdmin(HrmsModelAdmin):
     def has_change_permission(self, request, obj=None):
         # Allow if user is trying to update his own details.
         if obj is not None and request.user == obj:
+            self.readonly_fields = (
+                'username', 'password', 'email', 'date_joined', 'department', 'groups',
+                'manager', 'is_active', 'is_superuser', 'user_permissions'
+            )
             return True
         else:
             return super(EmployeeAdmin, self).has_change_permission(request, obj)

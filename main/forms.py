@@ -74,7 +74,8 @@ class EmployeeChangeForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(EmployeeChangeForm, self).__init__(*args, **kwargs)
         self.empID = self.instance.id
-        self.fields['manager'].queryset = Employee.objects.filter(~Q(id=self.empID))
+        if self.fields.get('manager'):
+            self.fields['manager'].queryset = Employee.objects.filter(~Q(id=self.empID))
 
     def clean_manager(self):
         # An Employee Cannot have himself assigned as a manager
