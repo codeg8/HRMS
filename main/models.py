@@ -79,3 +79,47 @@ class Employee(AbstractUser):
 
     def full_name(self):
         return self.first_name + " " + self.last_name
+
+
+class SalaryComponent(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class SalaryPackage(models.Model):
+    employee = models.ForeignKey(
+        Employee,
+        on_delete=models.CASCADE,
+        related_name=_('salary'),
+        null=False,
+    )
+    ctc = models.FloatField(verbose_name="Total CTC", null=False)
+    appraisal_date = models.DateField(verbose_name="Appraisal Date", null=False)
+    is_current = models.BooleanField(default=True)
+
+
+class SalaryBreakup(models.Model):
+    COMPONENT_PAY_FREQUENCY_CHOICES = (
+        ('D', _('Daily')),
+        ('W', _('Weekly')),
+        ('M', _('Monthly')),
+        ('Q', _('Quarterly')),
+        ('S', _('Semi Annually')),
+        ('A', _('Annually')),
+    )
+    package = models.ForeignKey(
+        SalaryPackage,
+        on_delete=models.CASCADE,
+        related_name=_('CTC_Breakup'),
+        null=False,
+    )
+    component = models.ForeignKey(
+        SalaryComponent,
+        on_delete=models.DO_NOTHING,
+        related_name=_('Package_Component'),
+        null=False
+    )
+    pay_frequency = models.CharField(max_length=30, choices=COMPONENT_PAY_FREQUENCY_CHOICES, default='M')
+    amount = models.FloatField()

@@ -16,7 +16,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from main.forms import EmployeeCreationForm, EmployeeChangeForm, AdminLoginForm
-from .models import Designation, Employee, Department
+from .models import Designation, Employee, Department, SalaryComponent, SalaryPackage, SalaryBreakup
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -254,3 +254,20 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(Department, site=admin_site)
 class DepartmentAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(SalaryComponent, site=admin_site)
+class SalaryComponentAdmin(admin.ModelAdmin):
+    pass
+
+
+class SalaryBreakupInline(admin.TabularInline):
+    model = SalaryBreakup
+    extra = 0
+
+
+@admin.register(SalaryPackage, site=admin_site)
+class SalaryPackageAdmin(admin.ModelAdmin):
+    inlines = [SalaryBreakupInline]
+
+
