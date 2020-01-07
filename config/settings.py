@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.forms',
-    'main'
+    'main',
+    'salary',
 ]
 
 MIDDLEWARE = [
