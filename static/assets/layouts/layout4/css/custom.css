@@ -582,3 +582,25 @@ select + .related-widget-wrapper-link,
 .has-error .md-radio label, .has-error.md-radio label{color:#e73d4a}
 .empty-form{ display: none}
 .tabular.inline-related  select.f-dd { width: 83%}
+.inline-group .tabular th.original {
+    width: 0;
+    padding: 0;
+}
+.inline-group .tabular tr.has_original td {
+    padding-top: 2em;
+}
+.inline-group .tabular tr td.original{
+    padding: 0;
+    vertical-align: top;
+    width: 0;
+}
+.inline-group .tabular td.original p{
+    position: absolute;
+    height: 1.5em;
+    padding: 2px 9px;
+    overflow: hidden;
+    font-size: 9px;
+    font-weight: bold;
+    color: #666;
+    margin: 5px 0;
+}

@@ -7,9 +7,9 @@
 <fieldset class="module {{ inline_admin_formset.classes }}">
    <h3>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</h3>
    {{ inline_admin_formset.formset.non_form_errors }}
-   <table class="table table-checkable table-no-bordered table-hover">
+   <table class="table table-no-bordered table-hover">
      <thead><tr>
-       <th class="original hidden"></th>
+       <th class="original"></th>
      {% for field in inline_admin_formset.fields %}
        {% if not field.widget.is_hidden %}
          <th class="column-{{ field.name }}{% if field.required %} required{% endif %}">{{ field.label|capfirst }}
@@ -27,7 +27,7 @@
         {% endif %}
         <tr class="form-row {% cycle "row1" "row2" %} {% if inline_admin_form.original or inline_admin_form.show_url %}has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form{% endif %}"
              id="{{ inline_admin_formset.formset.prefix }}-{% if not forloop.last %}{{ forloop.counter0 }}{% else %}empty{% endif %}">
-        <td class="original hidden">
+        <td class="original">
           {% if inline_admin_form.original or inline_admin_form.show_url %}<p>
           {% if inline_admin_form.original %}
           {{ inline_admin_form.original }}
