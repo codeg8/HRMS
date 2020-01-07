@@ -13,7 +13,7 @@ class SalaryComponentAdmin(HrmsModelAdmin):
 
 class SalaryBreakupInline(admin.TabularInline):
     model = SalaryBreakup
-    # extra = 0
+    extra = 0
     form = SalaryBreakupForm
 
 

@@ -580,4 +580,5 @@ select + .related-widget-wrapper-link,
 
 
 .has-error .md-radio label, .has-error.md-radio label{color:#e73d4a}
+.empty-form{ display: none}
 .tabular.inline-related  select.f-dd { width: 83%}

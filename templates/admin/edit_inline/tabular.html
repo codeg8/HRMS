@@ -7,7 +7,7 @@
 <fieldset class="module {{ inline_admin_formset.classes }}">
    <h3>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</h3>
    {{ inline_admin_formset.formset.non_form_errors }}
-   <table class="table table-checkable table-no-bordered">
+   <table class="table table-checkable table-no-bordered table-hover">
      <thead><tr>
        <th class="original hidden"></th>
      {% for field in inline_admin_formset.fields %}
