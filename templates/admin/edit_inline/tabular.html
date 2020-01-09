@@ -51,11 +51,12 @@
           {% for line in fieldset %}
             {% for field in line %}
               {% if field.is_readonly or not field.field.is_hidden %}
-              <td{% if field.field.name %} class="field-{{ field.field.name }}"{% endif %}>
+              <td{% if field.field.name %} class="field-{{ field.field.name }} {% if field.field.errors %}has-error{% endif %}"{% endif %}>
               {% if field.is_readonly %}
                   <p>{{ field.contents }}</p>
               {% else %}
-                  {{ field.field.errors.as_ul }}
+                    {#TODO: Figure out a way to display error messages properly in UI #}
+                    {# {{ field.field.errors.as_ul }} #}
                   {{ field.field }}
               {% endif %}
               </td>

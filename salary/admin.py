@@ -21,8 +21,7 @@ class SalaryBreakupInline(admin.TabularInline):
 class SalaryPackageAdmin(HrmsModelAdmin):
     fieldsets = (
         ('', {'fields': (
-            ('employee', 'appraisal_date'),
-            ('ctc', 'is_current'),
+            ('employee', 'appraisal_date', 'is_current'),
         )}),
     )
     list_display = ('employee', 'appraisal_date', 'ctc', 'is_current')

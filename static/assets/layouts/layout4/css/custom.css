@@ -604,3 +604,18 @@ select + .related-widget-wrapper-link,
     color: #666;
     margin: 5px 0;
 }
+
+
+.inline-group ul.tools a.add, .inline-group div.add-row a, .inline-group .tabular tr.add-row td a {
+    background: url(../../../../admin/img/icon-addlink.svg) 0 1px no-repeat;
+    padding-left: 16px;
+    font-size: 12px;
+}
+.inline-deletelink {
+    float: right;
+    text-indent: -9999px;
+    background: url(../../../../admin/img/inline-delete.svg) 0 0 no-repeat;
+    width: 16px;
+    height: 16px;
+    border: 0px none;
+}
